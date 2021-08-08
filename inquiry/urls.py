@@ -8,3 +8,4 @@ urlpatterns=[
     path('CS/', views.CS, name = 'CS'),
     path('FAQ/', views.FAQ, name = 'FAQ'),
 ]
+

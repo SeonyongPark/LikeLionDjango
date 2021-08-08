@@ -15,3 +15,4 @@ urlpatterns=[
     path('recentDetail/<str:id>', views.recentDetail, name='recentDetail'),
     path('recentWrite/', views.recentWrite, name="recentWrite"),
 ]
+

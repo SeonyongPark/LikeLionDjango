@@ -17,6 +17,8 @@ def list_view(request):
     post = paginator.get_page(page)
     return render(request, 'html/feed.html', {'posts':post})
 
+
+
 @csrf_exempt
 def helpWrite(request):
     if not request.user.is_authenticated:

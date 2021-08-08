@@ -20,6 +20,7 @@ def login_view(request):
         password = request.POST["userpw"]
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
+            
             auth.login(request, user)
             return redirect('user_info:home')
         else:

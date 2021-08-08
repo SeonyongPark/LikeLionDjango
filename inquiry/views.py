@@ -16,6 +16,7 @@ def FAQ(request):
     return render(request, 'FAQ.html', {'post1': post1})
 
 
+
 def CS(request):
     if request.method == 'POST':
         post1 = Post1()

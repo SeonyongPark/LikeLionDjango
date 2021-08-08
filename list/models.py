@@ -12,7 +12,8 @@ from imagekit.processors import ResizeToFill
 class Post(models.Model):
     title = models.CharField(max_length=100)
     writer = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='users')
-    # photo = models.ImageField(verbose_name='사진',upload_to='list/',blank=True, null=True)
+    # photo =
+    #  models.ImageField(verbose_name='사진',upload_to='list/',blank=True, null=True)
     post_time = models.DateTimeField(auto_now_add=True)
     body = models.CharField(max_length=500)
     thumbnail = models.ImageField(verbose_name='썸네일', upload_to='thumbnail/')

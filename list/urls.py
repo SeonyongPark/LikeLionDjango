@@ -14,3 +14,4 @@ urlpatterns =[
     path('donate/<str:id1> <str:id2> <str:id3>', views.donate, name='donate'),
 ]
 
+

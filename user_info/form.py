@@ -12,3 +12,4 @@ class PostForm(forms.ModelForm):
         model = Post1
         fields = ['title', 'body']
 
+

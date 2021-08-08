@@ -13,6 +13,7 @@ def market_view(request):
     page = request.GET.get('page')
     post = paginator.get_page(page)
 
+
     return render(request, 'market.html', {'posts':post})
 
 def market_Detail(request,id):
