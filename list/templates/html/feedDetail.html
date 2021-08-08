@@ -1,0 +1,129 @@
+<!doctype html>
+{% load static %}
+<html lang="kor">
+<head>
+    <script>
+        function newPage() {
+            window.location.href = "{% url 'user_info:recentWrite' %}"
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="{% static 'feedDetail.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>후원을 다이렉트로, 후원트</title>
+</head>
+
+<body>
+<div class="popCmmn">
+    <div class="popBg" data-num="1"></div>
+    <div class="popInnerBox">
+        <div class="popHead">
+            <h2></h2>
+            <h2>후원할 금액 입력</h2>
+            <h2 class="close">X</h2></div>
+        <form action="{% url 'list:donate' user.id post.writer.id post.id %}" method='POST'>
+            {% csrf_token %}
+            <div class="popBody">
+                <input name='cash' type="number" class="donateAmount"><h2>원</h2>
+            </div>
+            <div class="popFoot">
+                <button class="popCloseBtnCmmn" type="submit" data-num="1">확인</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="header">
+    <ul>
+        <li><a href="{% url 'user_info:home' %}" class="logo">WHO<span>WANT</span></a></li>
+        <li><a href="{% url 'list:helpWrite' %}" class="navItem">후원받기</a></li>
+        <li><a href="{% url 'market:market_view' %}" class="navItem">재능마켓</a></li>
+        <li><a href="{% url 'inquiry:CS' %}" class="navItem">문의하기</a></li>
+        <li><a href="{% url 'inquiry:FAQ' %}" class="navItem">FAQ</a></li>
+        <li><a href="{% url 'user_info:mypage' %}" class="navItem">마이페이지</a></li>
+        {% if not user.is_authenticated %}
+            <li><a href="{% url 'user_info:login_view' %} " class="navItem">Login</a></li>
+        {% else %}
+            <li><a href="{% url 'user_info:logout_view' %}" class="navItem">Logout</a></li>
+        {% endif %}
+    </ul>
+</div>
+<div class="contentBox">
+    <div class="makeDonate">
+        <!--    <i class="fa fa-plus-circle" aria-hidden="true"></i>-->
+        <img src="{% static 'img/logo.png' %}">
+        <div class="verticalTextBox">
+            <h2>게시글을 확인 후 도움을 주세요!</h2>
+            <h3>후원자의 따듯한 마음을 전해드릴게요</h3>
+        </div>
+    </div>
+    <div class="content">
+
+        <div class="title">
+            <i class="fa fa-user-circle" aria-hidden="true"></i>
+            <div class="titleTextBox">
+                <h2 class="userName">{{ post.writer }}</h2>
+                <h3 class="time">
+                    {% if post.created_string == False %}
+                        {{ post.created|date:'m월 d일' }}
+                    {% else %}
+                        {{ post.created_string }}
+                    {% endif %}
+                </h3>
+            </div>
+        </div>
+        <h2 class="contents">{{ post.body }}</h2>
+        {% if post.thumbnail %}
+            <div class="imgBox">
+                <img class="contentImg" src="{{ post.thumbnail.url }}">
+            </div>
+            <div class="btnBox">
+
+                <button type="button" class="donate">후원하기</button>
+            </div>
+        {% endif %}
+    </div>
+    <div class="info">
+        <h2>거주지역 : 대구광역시</h2>
+        <h2>분류 : 결식아동</h2>
+        <h2>매너온도 : 37.5</h2>
+        <h2>근황 작성도 : 100%</h2>
+    </div>
+</div>
+<div class="footer">
+    <ul>
+        <li><a href="#" class="logo">WHO<span>WANT</span></a></li>
+        <li><a href="#" class="navItem">기업소개</a></li>
+        <li><a href="#" class="navItem">이용약관</a></li>
+        <li><a href="#" class="navItem">개인정보 처리방침</a></li>
+        <li><a href="#" class="navItem">고객센터</a></li>
+    </ul>
+    <span class="line"></span>
+    <h2>(주)후원트 (대표이사:후대표) | 대구광역시 수성구 범어천로20 두산위브더제니스 4202호 | 통신판매번호 : 00-00-00-00
+        유료직업소개사업등록번호 : (국내) 제000-00000-00000 | (국외) 000-0000-0000 | 사업자등록번호 : 0000-0000-0000
+        © WhoWantLab, Inc.</h2>
+</div>
+</body>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        setPop();
+    });
+
+    function setPop() {
+        var popOpenBtn = $('.donate');
+
+        popOpenBtn.on('click', function () {
+            var clickNum = $(this).attr('data-num');
+
+            $('.popCmmn').fadeIn(200);
+        })
+
+        $('.popBg, .popCloseBtnCmmn, .close').on('click', function () {
+            $('.popCmmn').fadeOut(200);
+        })
+    }
+</script>
+</html>

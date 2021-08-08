@@ -1,0 +1,131 @@
+<!doctype html>
+{% load static %}
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="{% static 'mypage.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
+    <title>후원을 다이렉트로, 후원트</title>
+</head>
+<body>
+    {% if msg == "Do Login" %}
+    <script>
+        alert("로그인 후 이용해주세요");
+        window.location.href = "{% url 'user_info:login_view' %}";
+    </script>
+    {% endif %}
+    {% if error == "failed" %}
+    <script>
+        alert("올바른 금액을 작성해주세요.");
+    </script>
+    {% endif %}
+    {% if success == "success" %}
+    <script>
+        alert("충전에 성공하였습니다.");
+    </script>
+    {% endif %}
+<div class="header">
+    <ul>
+        <li><a href="{% url 'user_info:home' %}" class="logo">WHO<span>WANT</span></a></li>
+        <li><a href="{% url 'list:helpWrite' %}" class="navItem">후원받기</a></li>
+        <li><a href="{% url 'market:market_view' %}" class="navItem">재능마켓</a></li>
+        <li><a href="{% url 'inquiry:CS' %}" class="navItem">문의하기</a></li>
+        <li><a href="{% url 'inquiry:FAQ' %}" class="navItem">FAQ</a></li>
+        <li><a href="{% url 'user_info:mypage' %}" class="navItem">마이페이지</a></li>
+        {% if not user.is_authenticated %}
+            <li><a href="{% url 'user_info:login_view' %} " class="navItem">Login</a></li>
+        {% else %}
+            <li><a href="{% url 'user_info:logout_view' %}" class="navItem">Logout</a></li>
+        {% endif %}
+    </ul>
+</div>
+<div class="contentBox">
+    <div class="userProfile">
+        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+        <h3>{{request.user.email}}</h3>
+    </div>
+    <div class="horizontalBox">
+        <div class="pointBox">
+            <div class="titleBox">
+                <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                <div class="titleText">
+                    <h2>당신의 보유 포인트</h2>
+                    {% if money is 0 %}
+                        <h3>금액이 하나도 없어요!</h3>
+                    {% else %}
+                        <h3>{{money}}</h3>
+                    {% endif %}
+                </div>
+            </div>
+        <form action = "{% url 'user_info:mypage' %}" method="POST" >
+            {% csrf_token %}
+            <div class="inputArea">
+                <input type="number" placeholder="금액 입력" name = "mine" class="pointInput">
+                <button input="submit">충전하기</button>
+            </div>
+        </form>
+        </div>
+        <div class="tempBox">
+            <div class="titleBox">
+                <i class="fa fa-thermometer-empty" aria-hidden="true"></i>
+                <div class="titleText">
+                    <h2>당신의 마음의 온도는 </h2>
+                    <h3>{{temperature}}℃</h3>
+                </div>
+            </div>
+            <div class="inputArea">
+                <button type="button">후원하러 가기</button>
+            </div>
+        </div>
+    </div>
+    <h2>내가 후원했던 사람 어떻게 살고있을까??</h2>
+
+    <div class="donateList">
+        <div class="swiper-container mySwiper">
+            <div class="swiper-wrapper">
+            {% for receiver in receivers %}
+                <div class="swiper-slide">
+
+                    <h2>{{receiver.user_nickname}}</h2>
+                    {{receiver.id}}
+                    <img src="{{receiver.user_image.url}}">
+                    <h3>{{receiver.user_description}}</h3>
+                    <button type="button" onclick="location.href = '{% url 'user_info:recentView' receiver.user_email %}'">근황보기</button>
+ 
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="footer">
+    <ul>
+        <li><a href="#" class="logo">WHO<span>WANT</span></a></li>
+        <li><a href="#" class="navItem">기업소개</a></li>
+        <li><a href="#" class="navItem">이용약관</a></li>
+        <li><a href="#" class="navItem">개인정보 처리방침</a></li>
+        <li><a href="#" class="navItem">고객센터</a></li>
+    </ul>
+    <span class="line"></span>
+    <h2>(주)후원트 (대표이사:후대표) | 대구광역시 수성구 범어천로20 두산위브더제니스 4202호 | 통신판매번호 : 00-00-00-00
+        유료직업소개사업등록번호 : (국내) 제000-00000-00000 | (국외) 000-0000-0000 | 사업자등록번호 : 0000-0000-0000
+        © WhoWantLab, Inc.</h2>
+</div>
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        freeMode: true,
+
+    });
+</script>
+</body>
